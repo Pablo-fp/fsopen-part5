@@ -1,0 +1,9 @@
+PUT http://localhost:3003/api/blogs/66e551e1b3f1dd0b70ca4e68 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "A curious´s developer Github",
+    "author": "Pablo Fernandez",
+    "url": "https://github.com/Pablo-fp",
+    "likes": "10000000000"
+}

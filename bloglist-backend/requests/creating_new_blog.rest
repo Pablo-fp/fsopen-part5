@@ -1,0 +1,17 @@
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpIiwiaWQiOiI2NmY3YzMzMjY4MWVlNDkzYWMwYWM2MzMiLCJpYXQiOjE3MzQ5MDY1NDl9.9_MrfOUAv50T8c3YnJe13t9wAiDl_BEWsdGvHLM1jEk
+
+{
+    "title": "Prueba para ejercicio 4.19",
+    "author": "Titoline",
+    "url": "www.wikipedia.org",
+    "likes": "15",
+    "user": {
+"username": "mluukkai",
+"name": "Matti Luukkainen",
+"id": "66f7c332681ee493ac0ac633"
+}
+}
+
+
