@@ -2,13 +2,17 @@ import { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import blogService from './services/blogs';
 import loginService from './services/login';
+import Notification from './components/Notification';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [notification, setNotification] = useState({
+    type: null,
+    content: null
+  });
 
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -40,20 +44,31 @@ const App = () => {
       setUsername('');
       setPassword('');
     } catch (exception) {
-      setErrorMessage('Wrong credentials');
-      setTimeout(() => {
-        setErrorMessage(null);
-      }, 5000);
+      console.log(exception);
+      setNotification({
+        type: 'error',
+        content: exception.response.data.error
+      });
+      clearNotification();
     }
-    console.log('logging in with', username, password);
   };
 
   const handleCreateBlogSubmit = async (newBlogObj) => {
     try {
       const newBlog = await blogService.create(newBlogObj);
       setBlogs(blogs.concat(newBlog));
+      setNotification({
+        type: 'success',
+        content: `a new blog ${newBlog.title} by ${newBlog.author} added`
+      });
+      clearNotification();
     } catch (exception) {
-      console.log('Error creating blog:', exception);
+      console.log(exception);
+      setNotification({
+        type: 'error',
+        content: exception.response.data.error
+      });
+      clearNotification();
     }
   };
 
@@ -80,6 +95,12 @@ const App = () => {
       <button type="submit">login</button>
     </form>
   );
+
+  const clearNotification = () => {
+    setTimeout(() => {
+      setNotification({ type: null, content: null });
+    }, 5000);
+  };
 
   const blogForm = () => {
     const handleCreateBlogFormSubmit = (event) => {
@@ -135,7 +156,7 @@ const App = () => {
     <div>
       <h1>Blogs</h1>
 
-      <div style={{ color: 'red' }}>{errorMessage}</div>
+      <Notification message={notification} />
 
       {user === null ? (
         loginForm()
