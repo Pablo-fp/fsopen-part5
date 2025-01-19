@@ -1,7 +1,44 @@
-const Blog = ({ blog }) => (
-  <div>
-    {blog.title} {blog.author}
-  </div>  
-)
+import React, { useState } from 'react';
 
-export default Blog
+const Blog = ({ blog }) => {
+  const [viewDetails, setViewDetails] = useState(false);
+
+  // const createdByUser = blog.user.username === user.username;
+
+  const blogStyle = {
+    paddingTop: 10,
+    paddingLeft: 2,
+    border: 'solid',
+    borderWidth: 1,
+    marginBottom: 5
+  };
+
+  const details = () => (
+    <div className="blog-details">
+      <div>{blog.url}</div>
+      <div>
+        likes {blog.likes} <button className="blog-like-button">like</button>
+      </div>
+      <div>{blog.user}</div>
+      {/* {createdByUser && (
+        <button className="blog-remove-button" onClick={handleRemoveClick}>
+          remove
+        </button>
+      )} */}
+    </div>
+  );
+
+  return (
+    <div style={blogStyle} className="blog-container">
+      <div>
+        {blog.title} {blog.author}
+        <button onClick={() => setViewDetails(!viewDetails)}>
+          {viewDetails ? 'hide' : 'view'}
+        </button>
+      </div>
+      {viewDetails && details()}
+    </div>
+  );
+};
+
+export default Blog;
