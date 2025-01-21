@@ -16,6 +16,7 @@ const Blog = ({ blog, onBlogLike }) => {
   const handleLikeClick = () => {
     const updatedBlogObj = {
       ...blog,
+      user: blog.user.id,
       likes: blog.likes + 1
     };
     onBlogLike(updatedBlogObj);
@@ -30,7 +31,7 @@ const Blog = ({ blog, onBlogLike }) => {
           like
         </button>
       </div>
-      <div>{blog.user}</div>
+      <div>{blog.user.username}</div>
       {/* {createdByUser && (
         <button className="blog-remove-button" onClick={handleRemoveClick}>
           remove
