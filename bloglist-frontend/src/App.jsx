@@ -68,6 +68,22 @@ const App = () => {
     }
   };
 
+  const handleBlogLike = async (updatedBlogObj) => {
+    try {
+      const updatedBlog = await blogService.update(updatedBlogObj);
+      setBlogs(
+        blogs.map((blog) => (blog.id === updatedBlog.id ? updatedBlog : blog))
+      );
+    } catch (exception) {
+      console.log(exception);
+      setNotification({
+        type: 'error',
+        content: exception.response.data.error
+      });
+      clearNotification();
+    }
+  };
+
   const clearNotification = () => {
     setTimeout(() => {
       setNotification({ type: null, content: null });
@@ -97,7 +113,7 @@ const App = () => {
             <BlogForm onCreateBlogFormSubmit={handleCreateFormBlogSubmit} />
           </Togglable>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} user={user} />
+            <Blog key={blog.id} blog={blog} onBlogLike={handleBlogLike} />
           ))}
         </div>
       )}

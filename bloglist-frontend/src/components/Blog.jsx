@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, onBlogLike }) => {
   const [viewDetails, setViewDetails] = useState(false);
 
   // const createdByUser = blog.user.username === user.username;
@@ -13,11 +13,22 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   };
 
+  const handleLikeClick = () => {
+    const updatedBlogObj = {
+      ...blog,
+      likes: blog.likes + 1
+    };
+    onBlogLike(updatedBlogObj);
+  };
+
   const details = () => (
     <div className="blog-details">
       <div>{blog.url}</div>
       <div>
-        likes {blog.likes} <button className="blog-like-button">like</button>
+        likes {blog.likes}{' '}
+        <button className="blog-like-button" onClick={handleLikeClick}>
+          like
+        </button>
       </div>
       <div>{blog.user}</div>
       {/* {createdByUser && (
