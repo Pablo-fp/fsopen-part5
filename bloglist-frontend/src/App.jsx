@@ -20,6 +20,7 @@ const App = () => {
   /* Refs */
   const createFormRef = useRef();
 
+  /* Effects */
   useEffect(() => {
     blogService.getAll().then((blogs) => setBlogs(blogs));
   }, []);
