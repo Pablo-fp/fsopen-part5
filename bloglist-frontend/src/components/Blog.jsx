@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-const Blog = ({ blog, onBlogLike }) => {
+const Blog = ({ blog, user, onBlogLike, onBlogDelete }) => {
   const [viewDetails, setViewDetails] = useState(false);
 
-  // const createdByUser = blog.user.username === user.username;
+  const createdByUser = blog.user.username === user.username;
 
   const blogStyle = {
     paddingTop: 10,
@@ -22,6 +22,12 @@ const Blog = ({ blog, onBlogLike }) => {
     onBlogLike(updatedBlogObj);
   };
 
+  const handleRemoveClick = () => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      onBlogDelete(blog.id);
+    }
+  };
+
   const details = () => (
     <div className="blog-details">
       <div>{blog.url}</div>
@@ -32,11 +38,11 @@ const Blog = ({ blog, onBlogLike }) => {
         </button>
       </div>
       <div>{blog.user.username}</div>
-      {/* {createdByUser && (
+      {createdByUser && (
         <button className="blog-remove-button" onClick={handleRemoveClick}>
           remove
         </button>
-      )} */}
+      )}
     </div>
   );
 
