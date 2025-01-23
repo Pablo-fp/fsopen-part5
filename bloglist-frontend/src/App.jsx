@@ -91,6 +91,9 @@ const App = () => {
     }, 5000);
   };
 
+  // sort blogs the biggest likes number to the lowest
+  const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes);
+
   return (
     <div>
       <h1>Blogs</h1>
@@ -113,7 +116,7 @@ const App = () => {
           <Togglable buttonLabel="new blog" ref={createFormRef}>
             <BlogForm onCreateBlogFormSubmit={handleCreateFormBlogSubmit} />
           </Togglable>
-          {blogs.map((blog) => (
+          {sortedBlogs.map((blog) => (
             <Blog key={blog.id} blog={blog} onBlogLike={handleBlogLike} />
           ))}
         </div>
