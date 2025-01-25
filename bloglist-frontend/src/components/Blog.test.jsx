@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import Blog from './Blog';
@@ -37,4 +38,17 @@ test('button controlling the shown details has been clicked', async () => {
 
   const div = container.querySelector('.blog-details');
   expect(div).toBeDefined();
+});
+
+test('like button is clicked twice, the event handler the component received as props is called twice', async () => {
+  const mockHandler = vi.fn();
+
+  render(<Blog blog={blog} user={user} onBlogLike={mockHandler} />);
+
+  const fakeUser = userEvent.setup();
+  const viewButton = screen.getByText('view');
+  await fakeUser.click(viewButton);
+  const likeButton = screen.getByText('like');
+  await fakeUser.dblClick(likeButton);
+  expect(mockHandler.mock.calls).toHaveLength(2);
 });
