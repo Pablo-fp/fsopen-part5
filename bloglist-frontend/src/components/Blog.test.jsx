@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Blog from './Blog';
 
 const blog = {
@@ -25,4 +26,15 @@ test('renders title and author', () => {
 
   const element = container.querySelector('.blog-container');
   expect(element).toBeDefined();
+});
+
+test('button controlling the shown details has been clicked', async () => {
+  const { container } = render(<Blog blog={blog} user={user} />);
+
+  const fakeUser = userEvent.setup();
+  const button = screen.getByText('view');
+  await fakeUser.click(button);
+
+  const div = container.querySelector('.blog-details');
+  expect(div).toBeDefined();
 });
