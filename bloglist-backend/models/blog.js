@@ -7,16 +7,37 @@ const blogSchema = new mongoose.Schema({
   likes: Number,
   user: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-},
+    ref: 'User'
+  },
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Comment'
+    }
+  ]
 });
 
 blogSchema.set('toJSON', {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
+    console.log('Transforming document:', returnedObject);
+
+    if (returnedObject._id) {
+      returnedObject.id = returnedObject._id.toString();
+      delete returnedObject._id;
+    }
     delete returnedObject.__v;
+
+    // Prevent circular reference
+    if (returnedObject.user) {
+      returnedObject.user = {
+        id: returnedObject.user.id,
+        username: returnedObject.user.username,
+        name: returnedObject.user.name
+      };
+    }
   }
 });
 
-module.exports = mongoose.model('Blog', blogSchema);
+const Blog = mongoose.model('Blog', blogSchema);
+
+module.exports = Blog;
